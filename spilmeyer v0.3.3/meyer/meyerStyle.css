@@ -1,0 +1,437 @@
+* {
+  -webkit-user-drag: none;
+  -ms-user-drag: none;
+  -moz-user-drag: none;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+:root {
+  height: 100vh;
+}
+
+body {
+  background-color: #4287f5;
+  color: white;
+  font-family: Verdana;
+  margin: 0;
+  height: 100vh;
+}
+
+button {
+  cursor: pointer;
+}
+
+.fancyBtn {
+  /* font-size: 1em; */
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 0.5rem;
+  background: transparent;
+  transition: background 0.32s ease-in;
+  /* padding: 0.15rem 0.5rem; */
+}
+
+.fancyBtn:hover {
+  color: #000;
+  background: #fff;
+}
+
+.large {
+  font-size: 1em;
+  padding: 0.15rem 0.5rem;
+}
+
+
+input {
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.35rem;
+  vertical-align: text-bottom;
+}
+
+.fancyInput {
+  color: #ddd;
+  border: 1px solid #fff;
+  border-radius: 0.5rem;
+  background: transparent;
+  transition: color 0.1s ease-in;
+}
+
+.fancyInput::placeholder {
+  color: #ddd;
+}
+
+.fancyInput:hover {
+  color: #fff;
+}
+
+.fancyInput:focus {
+  color: #fff;
+}
+
+.fancyCheck {
+  appearance: none;
+  color: #ddd;
+  border: 1px solid #fff;
+  border-radius: 1rem;
+  padding: 0;
+  background: #f00;
+  width: 2.5rem;
+  height: 1.25rem;
+  margin: 0;
+  vertical-align: text-bottom;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+.fancyCheck:checked {
+  background: #0f0;
+}
+
+.fancyCheck::after {
+  content: "";
+  display: inline-block;
+  margin-top: 0.1rem;
+  margin-left: 0.1rem;
+  width: 1rem;
+  height: 1rem;
+  background: #fff;
+  border-radius: 50%;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+.fancyCheck:checked::after {
+  margin-top: 0.1rem;
+  margin-left: 1.35rem;
+}
+
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #9ef;
+}
+
+.iconBtn {
+  fill: #ccc;
+  transition-duration: 0.2s;
+}
+
+.iconBtn:hover {
+  fill: #fff;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
+}
+
+.nHeading {
+  margin-block-start: revert;
+  margin-block-end: revert;
+}
+
+.hLine {
+  margin-top: 0.1rem;
+  border-bottom: 1px solid #fff;
+  width: 100%;
+}
+
+#game {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+#announcer {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #0005;
+  align-items: center;
+}
+
+#announcer[open = "false"] {
+  display: none;
+}
+
+#announcement {
+  margin-top: 14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#announcement * {
+  text-align: center;
+}
+
+#settingsIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0004;
+  padding: 0.5rem;
+  border-bottom-right-radius: 1rem;
+  border: 1px solid #0004;
+  border-top: none;
+  border-left: none;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  fill: #ccc;
+}
+
+#settingsIcon:hover {
+  fill: #fff;
+}
+
+#settingsIcon[open = "true"] {
+  fill: transparent;
+}
+
+#settings {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #0005;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.2s;
+}
+
+#settings[open = "true"] {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#settings #content {
+  background-color: #152849dd;
+  border: 1px solid #000;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  backdrop-filter: blur(0.2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#settings #content #title {
+  text-align: center;
+}
+
+#settings #content #settingIssue {
+  text-align: center;
+  color: #f00;
+  max-width: 25vw;
+}
+
+#settings #content #players {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#settings #players #playerList {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 50vh;
+  list-style-position: inside;
+  padding: 0;
+}
+
+#settings #players #playerAdd {
+  margin-top: 0.5rem;
+}
+
+#settings #players .playerRemove {
+  vertical-align: bottom;
+}
+
+#settings #content #rules {
+  display: flex;
+  flex-direction: column;
+}
+
+#settings #content #gameButtons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+#settings #gameButtons #newGameBtn {
+  display: none;
+}
+
+#settings #settingsClose {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
+#lieSelect {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #0005;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 0.2s;
+}
+
+#lieSelect[open = "true"] {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#lieSelect #content {
+  background-color: #152849dd;
+  border: 1px solid #000;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  backdrop-filter: blur(0.2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#lieSelect #title {
+  text-align: center;
+}
+
+#lieSelect #content #hands {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#lieSelect #hands .hand {
+  text-align: center;
+  color: #ddd;
+  transition-duration: 0.2s;
+  margin: 0;
+  font-size: large;
+}
+
+#lieSelect #hands .hand:hover {
+  color: #fff;
+  cursor: pointer;
+}
+
+#lieSelect #lieSelectClose {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+  /* top: 0;
+  left: 0;
+  position: absolute; */
+}
+
+#healthBox {
+  margin-top: auto;
+}
+
+#gameInfo {
+  margin-top: auto;
+}
+
+#hand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes shake {
+  50% {
+    padding-top: 0;
+  }
+  100% {
+    padding-top: 0.5rem;
+  }
+}
+
+#cupBox {
+  height: 24.5rem;
+  /* cursor: pointer; */
+  margin-bottom: 0.25rem;
+}
+
+#cup {
+  width: 24rem;
+  height: 24rem;
+  padding-top: 0.5rem;
+  filter: drop-shadow(0px 2px 7px #000000);
+}
+
+#cup[shaking="true"] {
+  animation-name: shake;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+}
+
+#diceBox {
+  display: none;
+  position: absolute;
+  margin-top: 3rem;
+  pointer-events: none;
+}
+
+#dice {
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 5px #000000);
+}
+
+#handInfo {
+  text-align: center;
+}
+
+.die {
+  max-height: 94px;
+  max-width: 94px;
+}
+
+#gameActions {
+  border: 1px solid #000;
+  border-bottom: none;
+  padding: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-color: #0005;
+  display: none;
+  gap: 0.5rem;
+}
+
+.version {
+  color: white;
+  opacity: 0.5;
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+  width: 100%;
+}

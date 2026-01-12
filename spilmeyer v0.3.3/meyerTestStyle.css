@@ -1,0 +1,151 @@
+* {
+  -webkit-user-drag: none;
+  -ms-user-drag: none;
+  -moz-user-drag: none;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+:root {
+  height: 100%;
+}
+
+body {
+  background-color: #4287f5;
+  color: white;
+  font-family: Verdana;
+  margin: 0;
+  height: 100%;
+}
+
+button {
+  width: fit-content;
+}
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #9ef;
+}
+
+#game {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+#settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0004;
+  padding: 0.5rem;
+  border-bottom-right-radius: 1rem;
+  border: 1px solid #0004;
+  border-top: none;
+  border-left: none;
+  min-width: 3rem;
+  min-height: 3rem;
+  width: 3rem;
+  height: 3rem;
+  transition-duration: 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#settings:hover {
+  width: 10rem;
+  height: fit-content;
+}
+
+#settings #settingsIcon {
+  transition-duration: 0.2s;
+  opacity: 1;
+  position: absolute;
+  pointer-events: none;
+}
+
+#settings:hover #settingsIcon {
+  opacity: 0;
+}
+
+#settings #container {
+  transition-duration: 0.2s;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#settings:hover #container {
+  opacity: 1;
+}
+
+#healthBox {
+  margin-top: 3rem;
+  cursor: pointer;
+}
+
+#info {
+  margin-top: auto;
+}
+
+#hand {
+  background-color: #0004;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #0004;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+  border-bottom: none;
+}
+
+@keyframes shake {
+  50% {
+    padding-top: 0;
+  }
+  100% {
+    padding-top: 0.5rem;
+  }
+}
+
+#cupBox {
+  height: 24.5rem;
+  cursor: pointer;
+}
+
+#cup {
+  width: 24rem;
+  height: 24rem;
+  padding-top: 0.5rem;
+}
+
+#cup[shaking="true"] {
+  animation-name: shake;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+}
+
+#dice {
+  display: none;
+  position: absolute;
+  margin-top: 3rem;
+  pointer-events: none
+}
+
+.version {
+  color: white;
+  opacity: 0.5;
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+  width: 100%;
+}

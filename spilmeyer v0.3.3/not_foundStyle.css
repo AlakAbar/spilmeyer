@@ -1,0 +1,21 @@
+body {
+ background-color: darkblue;
+ color: white;
+  font-family: Verdana;
+}
+
+#nigger {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.version {
+  color: white;
+  opacity: 0.5;
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+  width: 100%;
+}
