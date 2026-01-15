@@ -248,7 +248,7 @@ for (const lieSelectHand of lieSelectHands.children) {
 
 // Player Info methods (Game UI)
 function setCurrentPlayerLifeDice() {
-    playerHealthDice.src = `../dice${playerLives[currentPlayerIndex]}.png`
+    playerHealthDice.src = `../assets/dice/${playerLives[currentPlayerIndex]}.png`
 }
 
 function setCurrentPlayer(playerName) {
@@ -323,17 +323,17 @@ truthAction.addEventListener("click", truth)
 
 // Cup State methods (Game UI)
 function openCup() {
-    cup.src = "../fixedCups/cupSingle.png"
+    cup.src = "../assets/cups/single.png"
     diceBox.style.display = "block"
 }
 
 function closeCup() {
-    cup.src = "../fixedCups/cupClosed.png"
+    cup.src = "../assets/cups/closed.png"
     diceBox.style.display = "none"
 }
 
 function peekCup() {
-    cup.src = "../fixedCups/cupSemiOpen.png"
+    cup.src = "../assets/cups/semiOpen.png"
     diceBox.style.display = "block"
 }
 
@@ -349,8 +349,8 @@ function stopShake() {
 
 // Dice Value method (Game UI)
 function setDiceValues(diceValues) {
-    die1.src = `../dice${diceValues[0]}.png`;
-    die2.src = `../dice${diceValues[1]}.png`;
+    die1.src = `../assets/dice/${diceValues[0]}.png`;
+    die2.src = `../assets/dice/${diceValues[1]}.png`;
 }
 
 // Dice Info method (Game UI)
