@@ -147,7 +147,7 @@ function addPlayer() {
         return
     }
 
-    newPlayer = document.createElement("li")
+    let newPlayer = document.createElement("li")
     newPlayer.classList.add("player")
 
     playerCount++
@@ -170,7 +170,7 @@ function removePlayer() {
 playerAddBtn.addEventListener("click", addPlayer)
 
 function getPlayers() {
-    players = []
+    let players = []
     
     for (const player of playerList.children) {
         players.push(player.querySelector(".playerName").value)
@@ -222,7 +222,7 @@ closeLieSelectBtn.addEventListener("click", toggleLieSelect)
 
 // Filter Lie Select method (Game menu)
 function filterLiesSelectLies(filter) {
-    foundLieHand = false
+    let foundLieHand = false
 
     for (const lieHand of lieSelectHands.children) {
         if (lieHand.innerHTML == filter) {
