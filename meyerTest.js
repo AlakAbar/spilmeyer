@@ -115,8 +115,8 @@ function løgn() {
       return;
     }
   
-    index = health.src.search(/dice(\d)/g);
-    healthPoints = health.src[index + 4];
+    index = health.src.search(/(\d)/g);
+    healthPoints = health.src[index];
 
     if (healthPoints - 1 == 0) {
         info.innerHTML = "Du tabte";
@@ -125,13 +125,13 @@ function løgn() {
     }
 
     else {
-        health.src = `./assets/dice/${healthPoints - 1}.png`;
+        health.src = `/assets/dice/${healthPoints - 1}.png`;
     }
 }
 
 function kast(step = 0) {
     if (reset) {
-        health.src = "./assets/dice/6.png";
+        health.src = "/assets/dice/6.png";
         info.innerHTML = "";
         reset = false;
     }
@@ -142,7 +142,7 @@ function kast(step = 0) {
                 return;
             }
             dice.style.display = "none";
-            cup.src = "./assets/cups/closed.png";
+            cup.src = "/assets/cups/closed.png";
             setTimeout(()=>{kast(1)}, 2000);
             cup.setAttribute("shaking", "true");
             shaking = true;
@@ -159,9 +159,9 @@ function kast(step = 0) {
             die2Value = randomDiceValues[1];
             cup.setAttribute("shaking", "false");
             shaking = false;
-            cup.src = "./assets/cups/semiOpen.png";
-            die1.src = `./assets/dice/${die1Value}.png`;
-            die2.src = `./assets/dice/${die2Value}.png`;
+            cup.src = "/assets/cups/semiOpen.png";
+            die1.src = `/assets/dice/${die1Value}.png`;
+            die2.src = `/assets/dice/${die2Value}.png`;
             dice.style.display = "inline";
             info.innerHTML = getHandFromDice(die1Value, die2Value);
             break;
