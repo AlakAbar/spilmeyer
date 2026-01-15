@@ -425,6 +425,7 @@ h1,h2,h3,h4,h5,h6 {
   background-color: #0005;
   display: none;
   gap: 0.5rem;
+  z-index: 1;
 }
 
 .version {
@@ -433,5 +434,4 @@ h1,h2,h3,h4,h5,h6 {
   position: fixed;
   bottom: 0px;
   left: 10px;
-  width: 100%;
 }

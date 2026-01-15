@@ -2,21 +2,20 @@ let gameRunning = false
 let livesAmount = 6
 let onlyOverOn = false
 
-let playerNames = []
-let playerLives = []
-let playerCount = 2
-let currentPlayerIndex = 0
-let previousPlayerIndex = 0
-let somebodyDead = false
+let playerNames = [];
+let playerLives = [];
+let playerCount = 2;
+let currentPlayerIndex = 0;
+let previousPlayerIndex = 0;
+let somebodyDead = false;
 
-let shaking = false
-let atOrOverSelected = false
+let shaking = false;
+let atOrOverSelected = false;
 
-let currentDiceValues = []
-let currentHand = ""
-let saidHand = ""
-let prevHand = ""
-
+let currentDiceValues = [];
+let currentHand = "";
+let saidHand = "";
+let prevHand = "";
 
 function newGame() {
     gameRunning = false
@@ -163,8 +162,13 @@ function shake(event) {
         }
         else {
             setGivingActions()
-            if (!isBigger(getHandFromDice(currentDiceValues), saidHand) && onlyOverOn) {
-                hideTruthAction()
+            if (!isBigger(getHandFromDice(currentDiceValues), saidHand)) {
+                if (onlyOverOn) {
+                    hideTruthAction()
+                }
+                else if (getHandFromDice(currentDiceValues) != saidHand) {
+                    hideTruthAction()
+                }
             }
             if (saidHand == "Meyer" && onlyOverOn) {
                 hideLieAction()
