@@ -137,13 +137,9 @@ function atOrOver(event) {
         setTimeout(atOrOver, 2000);
         
         currentDiceValues = randDice()
-
-        if (!atOrOverSelected) {
-            saidHand = prevHand
-        }
-        
         setDiceValues(currentDiceValues)
         setDiceInfo(getHandFromDice(currentDiceValues))
+        currentHand = getHandFromDice(currentDiceValues)
     }
 }
 
@@ -167,11 +163,11 @@ function open() {
         }
     }
     else {
-        if (isBigger(saidHand, prevHand)) {
+        if (isBigger(currentHand, saidHand)) {
             setGameInfo(`${playerNames[previousPlayerIndex]} har over ${saidHand}`)
             decreaseCurrentPlayerHealth()
         }
-        else if (saidHand == prevHand) {
+        else if (currentHand == saidHand) {
             setGameInfo(`${playerNames[previousPlayerIndex]} har ${saidHand}`)
             decreaseCurrentPlayerHealth()
         }
