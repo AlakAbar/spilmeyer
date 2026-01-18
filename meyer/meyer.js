@@ -252,10 +252,10 @@ function selectLie(lieHand) {
 function decreaseCurrentPlayerHealth() {
     if (playerLives[currentPlayerIndex] > 1) {
         if (saidHand == "Meyer") {
-            playerLives[previousPlayerIndex] -= 2
+            playerLives[currentPlayerIndex] -= 2
         }
         else {
-            playerLives[previousPlayerIndex]--
+            playerLives[currentPlayerIndex]--
         }
         setCurrentPlayerLifeDice()
     }
