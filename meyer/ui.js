@@ -48,7 +48,7 @@ const currentDiceInfo = document.querySelector("#currentDiceInfo")
 const gameInfo = document.querySelector("#gameInfo")
 
 // SFX
-const diceRollSFX = new Audio("../assets/diceRollSFX.wav")
+const diceRollSFX = new Audio("https://github.com/AlakAbar/spilmeyer/raw/refs/heads/main/assets/diceRollSFX.wav")
 
 /*
 Settings and setting option handlers
