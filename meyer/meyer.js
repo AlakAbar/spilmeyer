@@ -7,7 +7,6 @@ let playerLives = [];
 let playerCount = 2;
 let currentPlayerIndex = 0;
 let previousPlayerIndex = 0;
-let somebodyDead = false;
 
 let shaking = false;
 let atOrOverSelected = false;
@@ -16,6 +15,59 @@ let currentDiceValues = [];
 let currentHand = "";
 let saidHand = "";
 let prevHand = "";
+
+// Container for debugging functions
+const dbg = {};
+
+dbg.hands = function () {
+    console.group("Hands")
+    console.log("Previous Hand:", prevHand);
+    console.log("Current Hand:", currentHand);
+    console.log("Said Hand:", saidHand);
+    console.log("AtOrOver:", atOrOverSelected);
+    console.groupEnd();
+}
+
+dbg.players = function () {
+    console.group("Players")
+
+    
+    for (let i = 0; i < playerCount; i++) {
+        if (playerNames[i] == undefined) continue;
+        
+        console.group(playerNames[i]);
+        console.log("Index:", i);
+        console.log("Lives:", playerLives[i]);
+        console.groupEnd();
+    }
+    
+    console.groupEnd()
+
+    console.log("Current player index:", currentPlayerIndex);
+    console.log("Previous player index:", previousPlayerIndex);
+}
+
+dbg.setup = function (players = 2) {
+    if (players < 2) {
+        console.error("Cannot make a game with under 2 players")
+        return
+    }
+
+    for (const element of Array.from(playerList.children).reverse()) {
+        element.remove()
+    }
+
+    for (let i = 0; i < players; i++) {
+        addPlayer({name: "Spiller " + (i+1)})
+    }
+    
+    startGame()
+    updateStartGameBtn()
+    // disableSettingChanges()
+    showActions()
+
+    console.log(`Set up a testing game with ${players} players`);
+}
 
 function newGame() {
     gameRunning = false
@@ -32,7 +84,6 @@ function startGame() {
     currentHand = ""
     saidHand = ""
     prevHand = ""
-    somebodyDead = false
     atOrOverSelected = false
 
     gameRunning = true
@@ -51,11 +102,6 @@ function startGame() {
 function nextTurn() {
     previousPlayerIndex = currentPlayerIndex
     currentPlayerIndex++
-    // if (!somebodyDead) {
-    // }
-    // else {
-    //     somebodyDead = false
-    // }
 
     if (currentPlayerIndex >= playerCount) {
         currentPlayerIndex = 0
@@ -70,11 +116,6 @@ function nextTurn() {
     else {
         setGameInfo(playerNames[previousPlayerIndex] + " siger: " + saidHand) // maybe .toLowerCase() on saidHand
     }
-}
-
-function dbg() {
-    console.log(`Previous Hand: ${prevHand}\nCurrent Hand: ${currentHand}\nSaid Hand: ${saidHand}\nAtOrOver: ${atOrOverSelected}`);
-    
 }
 
 function atOrOver(event) {

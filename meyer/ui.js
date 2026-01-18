@@ -142,7 +142,7 @@ openSettingsBtn.addEventListener("click", toggleSettings)
 closeSettingsBtn.addEventListener("click", toggleSettings)
 
 // PlayerList methods (Settings setting)
-function addPlayer() {
+function addPlayer({name = ""}) {
     if (gameRunning) {
         return
     }
@@ -151,7 +151,7 @@ function addPlayer() {
     newPlayer.classList.add("player")
 
     playerCount++
-    newPlayer.innerHTML = `<input type="text" class="playerName fancyInput" name="playername" placeholder="Spiller navn"><svg class="playerRemove iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg>`
+    newPlayer.innerHTML = `<input type="text" class="playerName fancyInput" name="playername" placeholder="Spiller navn" value="${name}"><svg class="playerRemove iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg>`
     
     newPlayer.querySelector(".playerRemove").addEventListener("click", removePlayer)
 
