@@ -47,6 +47,9 @@ const currentDiceInfo = document.querySelector("#currentDiceInfo")
 
 const gameInfo = document.querySelector("#gameInfo")
 
+// SFX
+const diceRollSFX = new Audio("../assets/diceRollSFX.wav")
+
 /*
 Settings and setting option handlers
 */
@@ -345,6 +348,8 @@ function peekCup() {
 function startShake() {
     cup.setAttribute("shaking", "true");
     shaking = true
+    diceRollSFX.currentTime = 0
+    diceRollSFX.play()
 }
 
 function stopShake() {
@@ -367,4 +372,6 @@ function setDiceInfo(info) {
 // Game Info method (Game UI)
 function setGameInfo(info) {
     gameInfo.innerHTML = info
+
 }
+
