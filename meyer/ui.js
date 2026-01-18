@@ -226,7 +226,12 @@ function filterLiesSelectLies(filter) {
 
     for (const lieHand of lieSelectHands.children) {
         if (lieHand.innerHTML == filter) {
-            lieHand.style.display = "none"
+            if (onlyOverOn) {
+                lieHand.style.display = "none"
+            }
+            else {
+                lieHand.style.display = "block"
+            }
             foundLieHand = true
         }
         else if (foundLieHand) {
