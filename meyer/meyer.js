@@ -16,58 +16,7 @@ let currentHand = "";
 let saidHand = "";
 let prevHand = "";
 
-// Container for debugging functions
-const dbg = {};
-
-dbg.hands = function () {
-    console.group("Hands")
-    console.log("Previous Hand:", prevHand);
-    console.log("Current Hand:", currentHand);
-    console.log("Said Hand:", saidHand);
-    console.log("AtOrOver:", atOrOverSelected);
-    console.groupEnd();
-}
-
-dbg.players = function () {
-    console.group("Players")
-
-    
-    for (let i = 0; i < playerCount; i++) {
-        if (playerNames[i] == undefined) continue;
-        
-        console.group(playerNames[i]);
-        console.log("Index:", i);
-        console.log("Lives:", playerLives[i]);
-        console.groupEnd();
-    }
-    
-    console.groupEnd()
-
-    console.log("Current player index:", currentPlayerIndex);
-    console.log("Previous player index:", previousPlayerIndex);
-}
-
-dbg.setup = function (players = 2) {
-    if (players < 2) {
-        console.error("Cannot make a game with under 2 players")
-        return
-    }
-
-    for (const element of Array.from(playerList.children).reverse()) {
-        element.remove()
-    }
-
-    for (let i = 0; i < players; i++) {
-        addPlayer({name: "Spiller " + (i+1)})
-    }
-    
-    startGame()
-    updateStartGameBtn()
-    // disableSettingChanges()
-    showActions()
-
-    console.log(`Set up a testing game with ${players} players`);
-}
+let debugging = false
 
 function newGame() {
     gameRunning = false
@@ -118,9 +67,8 @@ function nextTurn() {
     }
 }
 
-function atOrOver(event) {
+function gameAtOrOverAction(event) {
     setGameInfo("")
-
     
     if (event == undefined) {
         stopShake()
@@ -134,7 +82,7 @@ function atOrOver(event) {
         
         closeCup()
         startShake()
-        setTimeout(atOrOver, 2000);
+        setTimeout(gameAtOrOverAction, 2000);
         
         currentDiceValues = randDice()
         setDiceValues(currentDiceValues)
@@ -143,12 +91,12 @@ function atOrOver(event) {
     }
 }
 
-function lie() {
+function gameLieAction() {
     filterLiesSelectLies(saidHand)
     toggleLieSelect()
 }
 
-function open() {
+function gameOpenAction() {
     openCup()
     hideOpenAction()
     
@@ -172,7 +120,7 @@ function open() {
             decreaseCurrentPlayerHealth()
         }
         else {
-            setGameInfo(`${playerNames[previousPlayerIndex]} har ikke der eller derover ${saidHand}`)
+            setGameInfo(`${playerNames[previousPlayerIndex]} har ikke dét eller derover ${saidHand}`)
             decreasePreviousPlayerHealth()
         }
         atOrOverSelected = false
@@ -181,14 +129,12 @@ function open() {
     // console.log(prevHand);
     // console.log(currentHand);
     // console.log(saidHand);
-    
-    
 
     saidHand = ""
     setStartingActions()
 }
 
-function shake(event) {
+function gameShakeAction(event) {
     setGameInfo("")
     
     if (event == undefined) {
@@ -221,7 +167,7 @@ function shake(event) {
 
         closeCup()
         startShake()
-        setTimeout(shake, 2000);
+        setTimeout(gameShakeAction, 2000);
         
         currentDiceValues = randDice()
         setDiceValues(currentDiceValues)
@@ -230,7 +176,7 @@ function shake(event) {
     }
 }
 
-function truth() {
+function gameTruthAction() {
     atOrOverSelected = false
     saidHand = getHandFromDice(currentDiceValues)
     closeCup()
