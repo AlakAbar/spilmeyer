@@ -38,9 +38,7 @@ const openAction = gameActions.querySelector("#openAction")
 const shakeAction = gameActions.querySelector("#shakeAction")
 const truthAction = gameActions.querySelector("#truthAction")
 
-const debugMenu = debug.querySelector("#debugMenu")
-
-const closeOnClickElements = document.querySelectorAll(".closeOnClick")
+const popupDialog = document.querySelector("#popup")
 
 const cup = document.querySelector("#cup")
 
@@ -127,6 +125,10 @@ function disableSettingChanges() {
     onlyOver.disabled = true
 
     settingIssueText.innerHTML = "Indstillinger kan ikke ændres mens spillet er igang"
+
+    for (const player of playerList.children) {
+        player.querySelector(".playerName").disabled = true
+    }
 }
 
 function enableSettingChanges() {
@@ -135,7 +137,12 @@ function enableSettingChanges() {
     onlyOver.disabled = false
 
     settingIssueText.innerHTML = ""
+
+    for (const player of playerList.children) {
+        player.querySelector(".playerName").disabled = false
+    }
 }
+
 
 function toggleSettings() {
     if (settings.getAttribute("open") == "false") {
@@ -155,7 +162,7 @@ closeSettingsBtn.addEventListener("click", toggleSettings)
 
 // PlayerList methods (Settings setting)
 function addPlayer({name = ""}) {
-    if (gameRunning) {
+    if (gameRunning && !debugSettingsEnabled) {
         return
     }
 
@@ -171,7 +178,7 @@ function addPlayer({name = ""}) {
 }
 
 function removePlayer() {
-    if (gameRunning) {
+    if (gameRunning && !debugSettingsEnabled) {
         return
     }
 
@@ -390,41 +397,64 @@ function setGameInfo(info) {
 }
 
 function toggleDebugScreen() {
-    if (debug.getAttribute("open") == "false") {
-        debug.setAttribute("open", "true")
+    if (debug.open) {
+        debug.close()
     }
 
     else {
-        debug.setAttribute("open", "false")
+        debug.showModal()
     }
 }
 
-debugMenu.addEventListener("click", event => {
-  event.stopPropagation()
-})
+function showPopup(message, clear) {
+    popupDialog.innerHTML = message
+    popupDialog.style.opacity = "1"
 
-function closeScreen() {
-  this.setAttribute("open", "false")
+    if (clear) {
+        setTimeout(closePopup, clear)
+    }
 }
 
-closeOnClickElements.forEach(element => {
-  element.addEventListener("click", closeScreen)
-})
+function closePopup() {
+    popupDialog.style.opacity = "0"
+}
 
 function toggleHandDebug() {
     if (this.checked) {
-
+        debugHandOverlay.style.display = "block"
+        enableDebugOverlays()
+        handOverlayActive = true
     }
     else {
-        
+        debugHandOverlay.style.display = "none"
+        handOverlayActive = false
+
+        if (!lifeOverlayActive && !handOverlayActive) {
+            disableDebugOverlays()
+        }
     }
 }
 
 function toggleLifeDebug() {
     if (this.checked) {
-
+        debugLifeOverlay.style.display = "block"
+        enableDebugOverlays()
+        lifeOverlayActive = true
     }
     else {
-        
+        debugLifeOverlay.style.display = "none"
+        lifeOverlayActive = false
+
+        if (!lifeOverlayActive && !handOverlayActive) {
+            disableDebugOverlays()
+        }
     }
+}
+
+function disableDebugOverlays() {
+    debugOverlays.style.display = "none"
+}
+
+function enableDebugOverlays() {
+    debugOverlays.style.display = "flex"
 }

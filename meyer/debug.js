@@ -5,21 +5,29 @@ const debugLife = debug.querySelector("#debugLife")
 const debugCaptureConsole = debug.querySelector("#captureConsole")
 const debugChangeSettings = debug.querySelector("#changeSettings")
 
-const debugPlayerList = debug.querySelector(".playerList")
+const debugPlayerLifeLists = document.querySelectorAll(".playerLifeList")
 
-const debugPrevHand = debug.querySelector("#dbgPrevHand")
-const debugCurrrentHand = debug.querySelector("#dbgCurrentHand")
-const debugSaidHand = debug.querySelector("#dbgSaidHand")
-const debugAtOrOver = debug.querySelector("#dbgAtOrOver")
+const debugPrevHand = document.querySelectorAll(".dbgPrevHand")
+const debugCurrentHand = document.querySelectorAll(".dbgCurrentHand")
+const debugSaidHand = document.querySelectorAll(".dbgSaidHand")
+const debugAtOrOver = document.querySelectorAll(".dbgAtOrOver")
 
 const debugPlayerCount = debug.querySelector("#debugPlayerCount")
 const debugGameCreate = debug.querySelector("#debugGameCreate")
 const debugGameEnd = debug.querySelector("#debugGameEnd")
 
+const debugOverlays = document.querySelector("#debugOverlays")
+const debugHandOverlay = debugOverlays.querySelector("#debugHandOverlay")
+const debugLifeOverlay = debugOverlays.querySelector("#debugLifeOverlay")
+
+let handOverlayActive = false
+let lifeOverlayActive = false
+
 const debugCombo = ["d", "e", "b", "u", "g"]
 let comboIndex = 0
 
 debugging = true
+showPopup('<button class="fancyBtn inputBtn" onclick="openLog()">Open log</button>')
 
 // Container for debugging functions
 const dbg = {};
@@ -99,8 +107,48 @@ function debugKeyComboHandler(event) {
 
 addEventListener("keypress", debugKeyComboHandler)
 
-function debugUpdate() {
+function debugInitOverlays() {
 
+
+    for (const playerLifeList of debugPlayerLifeLists) {
+        playerLifeList.innerHTML = ""
+
+        playerNames.forEach((name, index) => {
+            const player = document.createElement("li")
+            player.innerHTML = `<span class="playerName">${name}</span><span class="lives">${playerLives[index]}</span>`
+
+            playerLifeList.appendChild(player)
+        })
+    }
+}
+
+function debugUpdateOverlays() {
+    for (const prevHandDebug of debugPrevHand) {
+        prevHandDebug.innerText = prevHand
+    }
+
+    for (const currentHandDebug of debugCurrentHand) {
+        currentHandDebug.innerText = currentHand
+    }
+
+    for (const saidHandDebug of debugSaidHand) {
+        saidHandDebug.innerText = saidHand
+    }
+
+    for (const atOrOverDebug of debugAtOrOver) {
+        atOrOverDebug.innerText = atOrOverSelected
+    }
+
+
+    for (const playerLifeList of debugPlayerLifeLists) {
+        playerLifeList.querySelectorAll(".lives").forEach((lives, index) => {
+            lives.innerText = playerLives[index]
+        }); 
+    }
+}
+
+function debugUpdate() {
+    debugUpdateOverlays()
 }
 
 // 
@@ -122,18 +170,21 @@ function takeOverConsole() {
                 // Do this for normal browsers
                 original.apply(console, arguments)
 
-                args = arguments
+                args = Array.from(arguments)
 
                 consoleMessageLog.push({
                     type: method,
-                    args: args
+                    message: args.join(" ")
                 })
             }else{
                 // Do this for IE
                 var message = Array.prototype.slice.apply(arguments).join(' ')
                 original(message)
 
-                consoleMessageLog.push(arguments)
+                consoleMessageLog.push({
+                    type: method,
+                    message: message
+                })
             }
         }
     }
@@ -145,16 +196,27 @@ function takeOverConsole() {
 function releaseConsole() {
     for (var i = 0; i < methods.length; i++)
         window.console[methods[i]] = originalConsoleMethods[methods[i]]
+}
 
-    logWindow = open("./debugLog.html", "_blank")
 
+function openLog() {
+    var logWindow = open("./debugLog.html", "_blank")
+
+    logWindow.addEventListener("load", () => {
+        sendLogs(logWindow)
+    })
+}
+
+function sendLogs(logWin) {
     for (const log of consoleMessageLog) {
-        postMessage({
+        logWin.postMessage({
             level: log.type,
             message: log.message
         })  
     }
 }
+
+window.sendLogs = sendLogs
 
 debugGameCreate.addEventListener("click", function() {dbg.setup(debugPlayerCount.value)})
 debugGameEnd.addEventListener("click", newGameBtnHandler)

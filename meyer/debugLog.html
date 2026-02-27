@@ -19,19 +19,81 @@
 
         .log {
             padding: 0.1rem;
+            padding-left: 0.5rem;
             border-radius: 0.5rem;
+        }
+
+        button {
+            background-color: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            color: #000;
+            background: #fff;
+        }
+
+        button:active {
+            background: #bbb;
         }
     </style>
 </head>
 <body>
     <h1>Log</h1>
+    <button onclick="update()">Update</button>
+    <button onclick="allSort()">All</button>
+    <button onclick="warnSort()">Warn</button>
+    <button onclick="errorSort()">Error</button>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
     <div id="logs">
-
+        
     </div>
     <script>
-        const log = document.querySelector("#logs")
+        const logs = document.querySelector("#logs")
+        const updateInterval = 5000
+        let autoUpdateInterval
+
+        let sort = "all"
+
+        function update() {
+            for (const element of document.querySelectorAll(".log")) {
+                element.remove()
+            }
+
+            opener.sendLogs(window)
+        }
+
+        function allSort() {
+            sort = "all"
+            update()
+        }
+
+        function warnSort() {
+            sort = "warn"
+            update()
+        }
+
+        function errorSort() {
+            sort = "error"
+            update()
+        }
+
+        function start() {
+            autoUpdateInterval = setInterval(update, updateInterval)
+        }
+
+        function stop() {
+            clearInterval(autoUpdateInterval)
+        }
 
         function addLog(message, level) {
+            if (sort == "warn" && level != sort) return
+            if (sort == "error" && level != sort) return
+
             line = document.createElement("span")
             line.classList.add("log")
 
@@ -50,14 +112,12 @@
                     break;
             }
 
-            line.innerText = message
+            line.innerHTML = message
 
-            log.appendChild(line)
+            logs.appendChild(line)
         }
 
         window.addEventListener("message", function(event) {
-            console.log(event)
-
             if (event.origin !== window.origin) return;
 
             message = event.data["message"]

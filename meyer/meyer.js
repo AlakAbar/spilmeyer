@@ -46,6 +46,8 @@ function startGame() {
     
     setCurrentPlayer(playerNames[currentPlayerIndex])
     setStartingActions()
+
+    if (debugging) debugInitOverlays();
 }
 
 function nextTurn() {
@@ -65,6 +67,8 @@ function nextTurn() {
     else {
         setGameInfo(playerNames[previousPlayerIndex] + " siger: " + saidHand) // maybe .toLowerCase() on saidHand
     }
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function gameAtOrOverAction(event) {
@@ -89,11 +93,15 @@ function gameAtOrOverAction(event) {
         setDiceInfo(getHandFromDice(currentDiceValues))
         currentHand = getHandFromDice(currentDiceValues)
     }
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function gameLieAction() {
     filterLiesSelectLies(saidHand)
     toggleLieSelect()
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function gameOpenAction() {
@@ -132,6 +140,8 @@ function gameOpenAction() {
 
     saidHand = ""
     setStartingActions()
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function gameShakeAction(event) {
@@ -174,13 +184,17 @@ function gameShakeAction(event) {
         setDiceInfo(getHandFromDice(currentDiceValues))
         currentHand = getHandFromDice(currentDiceValues)
     }
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function gameTruthAction() {
     atOrOverSelected = false
-    saidHand = getHandFromDice(currentDiceValues)
+    saidHand = currentHand
     closeCup()
     nextTurn()
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function selectLie(lieHand) {
@@ -189,6 +203,8 @@ function selectLie(lieHand) {
     saidHand = lieHand
     closeCup()
     nextTurn()
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function decreaseCurrentPlayerHealth() {
@@ -223,6 +239,8 @@ function decreaseCurrentPlayerHealth() {
         setCurrentPlayer(playerNames[currentPlayerIndex])
         setStartingActions()
     }
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function decreasePreviousPlayerHealth() {
@@ -248,9 +266,13 @@ function decreasePreviousPlayerHealth() {
             playerWin(playerNames[0])
         }
     }
+
+    if (debugging) debugUpdateOverlays();
 }
 
 function playerWin(playerName) {
     setGameInfo(`${playerName} vinder!`)
     hideActions()
+
+    if (debugging) debugUpdateOverlays();
 }
