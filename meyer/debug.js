@@ -142,7 +142,12 @@ function debugUpdateOverlays() {
 
     for (const playerLifeList of debugPlayerLifeLists) {
         playerLifeList.querySelectorAll(".lives").forEach((lives, index) => {
-            lives.innerText = playerLives[index]
+            if (playerLives[index] == undefined) {
+                lives.innerText = 0
+            }
+            else {
+                lives.innerText = playerLives[index]
+            }
         }); 
     }
 }
