@@ -208,16 +208,14 @@ function selectLie(lieHand) {
 }
 
 function decreaseCurrentPlayerHealth() {
-    if (playerLives[currentPlayerIndex] > 1) {
-        if (saidHand == "Meyer") {
-            playerLives[currentPlayerIndex] -= 2
-        }
-        else {
-            playerLives[currentPlayerIndex]--
-        }
-        setCurrentPlayerLifeDice()
+    if (currentHand == "Meyer") {
+        playerLives[currentPlayerIndex] -= 2
     }
     else {
+        playerLives[currentPlayerIndex]--
+    }
+    
+    if (playerLives[currentPlayerIndex] <= 0)  {
         setGameInfo(playerNames[currentPlayerIndex] + " er død")
         playerNames.splice(currentPlayerIndex, 1)
         playerLives.splice(currentPlayerIndex, 1)
@@ -239,20 +237,18 @@ function decreaseCurrentPlayerHealth() {
         setCurrentPlayer(playerNames[currentPlayerIndex])
         setStartingActions()
     }
-
+  
+    else {
+        setCurrentPlayerLifeDice()
+    }
+  
     if (debugging) debugUpdateOverlays();
 }
 
 function decreasePreviousPlayerHealth() {
-    if (playerLives[previousPlayerIndex] > 1) {
-        if (saidHand == "Meyer") {
-            playerLives[previousPlayerIndex] -= 2
-        }
-        else {
-            playerLives[previousPlayerIndex]--
-        }
-    }
-    else {
+    playerLives[previousPlayerIndex]--
+    
+    if (playerLives[previousPlayerIndex] <= 0) {
         setGameInfo(playerNames[previousPlayerIndex] + " er død")
         playerNames.splice(previousPlayerIndex, 1)
         playerLives.splice(previousPlayerIndex, 1)
