@@ -11,41 +11,45 @@ const lieOnStart = document.querySelector("#lieOnStart")
 const onlyOver = document.querySelector("#onlyOver")
 
 // Elements
-const openSettingsBtn = document.querySelector("#settingsIcon")
-const closeSettingsBtn = document.querySelector("#settingsClose")
 const settings = document.querySelector("#settings")
-const settingIssueText = document.querySelector("#settingIssue")
+const openSettingsBtn = document.querySelector("#settingsIcon")
+const closeSettingsBtn = settings.querySelector("#settingsClose")
+const settingIssueText = settings.querySelector("#settingIssue")
 
-const closeLieSelectBtn = document.querySelector("#lieSelectClose")
 const lieSelect = document.querySelector("#lieSelect")
+const closeLieSelectBtn = lieSelect.querySelector("#lieSelectClose")
 const lieSelectHands = lieSelect.querySelector("#hands")
+const currentDiceInfo = lieSelect.querySelector("#currentDiceInfo")
 
-const playerList = document.querySelector("#playerList")
-const playerAddBtn = document.querySelector("#playerAdd")
-const playerRemoveBtns = document.querySelectorAll(".playerRemove")
+const playerList = settings.querySelector(".playerList")
+const playerAddBtn = settings.querySelector("#playerAdd")
+const playerRemoveBtns = settings.querySelectorAll(".playerRemove")
+
+const newGameBtn = settings.querySelector("#newGameBtn")
+const startGameBtn = settings.querySelector("#startGameBtn")
+
 const playerHealthDice = document.querySelector("#health")
 const currentPlayer = document.querySelector("#currentPlayer")
 
-const newGameBtn = document.querySelector("#newGameBtn")
-const startGameBtn = document.querySelector("#startGameBtn")
-
 const gameActions = document.querySelector("#gameActions")
-const atOrOverAction = document.querySelector("#atOrOverAction")
-const lieAction = document.querySelector("#lieAction")
-const openAction = document.querySelector("#openAction")
-const shakeAction = document.querySelector("#shakeAction")
-const truthAction = document.querySelector("#truthAction")
+const atOrOverAction = gameActions.querySelector("#atOrOverAction")
+const lieAction = gameActions.querySelector("#lieAction")
+const openAction = gameActions.querySelector("#openAction")
+const shakeAction = gameActions.querySelector("#shakeAction")
+const truthAction = gameActions.querySelector("#truthAction")
+
+const popupDialog = document.querySelector("#popup")
 
 const cup = document.querySelector("#cup")
 
 const diceBox = document.querySelector("#diceBox")
-const die1 = document.querySelector("#die1")
-const die2 = document.querySelector("#die2")
-const handInfo = document.querySelector("#handInfo")
-
-const currentDiceInfo = document.querySelector("#currentDiceInfo")
+const die1 = diceBox.querySelector("#die1")
+const die2 = diceBox.querySelector("#die2")
+const handInfo = diceBox.querySelector("#handInfo")
 
 const gameInfo = document.querySelector("#gameInfo")
+
+let debugSettingsEnabled = false
 
 // SFX
 const diceRollSFX = new Audio("https://github.com/AlakAbar/spilmeyer/raw/refs/heads/main/assets/diceRollSFX.wav")
@@ -69,6 +73,7 @@ function newGameBtnHandler() {
     newGame()
     enableSettingChanges()
     updateStartGameBtn()
+    resetCurrentPlayer()
     hideActions()
 }
 
@@ -113,11 +118,17 @@ function checkSettings() {
 }
 
 function disableSettingChanges() {
+    if (debugSettingsEnabled) return;
+
     lifeCount.disabled = true
     lieOnStart.disabled = true
     onlyOver.disabled = true
 
     settingIssueText.innerHTML = "Indstillinger kan ikke ændres mens spillet er igang"
+
+    for (const player of playerList.children) {
+        player.querySelector(".playerName").disabled = true
+    }
 }
 
 function enableSettingChanges() {
@@ -126,7 +137,12 @@ function enableSettingChanges() {
     onlyOver.disabled = false
 
     settingIssueText.innerHTML = ""
+
+    for (const player of playerList.children) {
+        player.querySelector(".playerName").disabled = false
+    }
 }
+
 
 function toggleSettings() {
     if (settings.getAttribute("open") == "false") {
@@ -146,7 +162,7 @@ closeSettingsBtn.addEventListener("click", toggleSettings)
 
 // PlayerList methods (Settings setting)
 function addPlayer({name = ""}) {
-    if (gameRunning) {
+    if (gameRunning && !debugSettingsEnabled) {
         return
     }
 
@@ -162,7 +178,7 @@ function addPlayer({name = ""}) {
 }
 
 function removePlayer() {
-    if (gameRunning) {
+    if (gameRunning && !debugSettingsEnabled) {
         return
     }
 
@@ -264,6 +280,11 @@ function setCurrentPlayer(playerName) {
     setCurrentPlayerLifeDice()
 }
 
+function resetCurrentPlayer() {
+    currentPlayer.innerHTML = ""
+    playerHealthDice.src = "../assets/dice/6.png"
+}
+
 // Action methods (Game actions)
 function showActions() {
     gameActions.style.display = "flex"
@@ -323,11 +344,11 @@ function hideOpenAction() {
     openAction.style.display = "none"
 }
 
-atOrOverAction.addEventListener("click", atOrOver)
-lieAction.addEventListener("click", lie)
-openAction.addEventListener("click", open)
-shakeAction.addEventListener("click", shake)
-truthAction.addEventListener("click", truth)
+atOrOverAction.addEventListener("click", gameAtOrOverAction)
+lieAction.addEventListener("click", gameLieAction)
+openAction.addEventListener("click", gameOpenAction)
+shakeAction.addEventListener("click", gameShakeAction)
+truthAction.addEventListener("click", gameTruthAction)
 
 // Cup State methods (Game UI)
 function openCup() {
@@ -375,3 +396,65 @@ function setGameInfo(info) {
 
 }
 
+function toggleDebugScreen() {
+    if (debug.open) {
+        debug.close()
+    }
+
+    else {
+        debug.showModal()
+    }
+}
+
+function showPopup(message, clear) {
+    popupDialog.innerHTML = message
+    popupDialog.style.opacity = "1"
+
+    if (clear) {
+        setTimeout(closePopup, clear)
+    }
+}
+
+function closePopup() {
+    popupDialog.style.opacity = "0"
+}
+
+function toggleHandDebug() {
+    if (this.checked) {
+        debugHandOverlay.style.display = "block"
+        enableDebugOverlays()
+        handOverlayActive = true
+    }
+    else {
+        debugHandOverlay.style.display = "none"
+        handOverlayActive = false
+
+        if (!lifeOverlayActive && !handOverlayActive) {
+            disableDebugOverlays()
+        }
+    }
+}
+
+function toggleLifeDebug() {
+    if (this.checked) {
+        debugLifeOverlay.style.display = "block"
+        enableDebugOverlays()
+        lifeOverlayActive = true
+    }
+    else {
+        debugLifeOverlay.style.display = "none"
+        lifeOverlayActive = false
+
+        if (!lifeOverlayActive && !handOverlayActive) {
+            disableDebugOverlays()
+        }
+    }
+}
+
+function disableDebugOverlays() {
+    debugOverlays.style.display = "none"
+}
+
+function enableDebugOverlays() {
+    debugOverlays.style.display = "flex"
+}

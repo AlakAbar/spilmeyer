@@ -1,0 +1,60 @@
+.switch {
+  --switchSize: 1.2rem;
+  --switchTransition: .3s;
+
+  position: relative;
+  display: inline-block;
+  width: calc(var(--switchSize) * 2);
+  height: var(--switchSize);
+  vertical-align: text-bottom;
+}
+
+.switch input {
+  position: absolute;
+  cursor: pointer;
+  margin: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f00;
+  -webkit-transition: var(--switchTransition);
+  transition: var(--switchTransition);
+  appearance: none;
+}
+
+.switch input::before {
+  position: absolute;
+  display: inline-block;
+  content: "";
+  height: calc(var(--switchSize) - 0.2rem);
+  width: calc(var(--switchSize) - 0.2rem);
+  left: .1rem;
+  top: .1rem;
+  background-color: white;
+  -webkit-transition: var(--switchTransition);
+  transition: var(--switchTransition);
+}
+
+.switch input:checked {
+  background-color: #0f0;
+}
+
+.switch input:checked::before {
+  -webkit-transform: translateX(calc(var(--switchSize) * 2 - var(--switchSize)));
+  -ms-transform: translateX(calc(var(--switchSize) * 2 - var(--switchSize)));
+  transform: translateX(calc(var(--switchSize) * 2 - var(--switchSize)));
+}
+
+/* Rounded sliders */
+.switch.round {
+  border-radius: 50%;
+}
+
+.switch.round > input {
+  border-radius: 34px;
+}
+
+.switch.round > input::before {
+  border-radius: 50%;
+}

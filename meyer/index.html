@@ -5,17 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meyer Online</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
-    <link href="./meyerStyle.css" rel="stylesheet" type="text/css" media="all">
+    <link href="./meyerStyle.css" rel="stylesheet" type="text/css">
+    <link href="../toggleSwitch.css" rel="stylesheet" type="text/css">
+
+    <!--These 3 metatags should be uncommented during development, otherwise the browser will not show new changes when you refresh-->
+    <!--When not in development, these can be commented out to save user bandwith-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
   </head>
   <body>
     <div id="game">
-      <div id="announcer" open="false">
-        <div id="announcement">
-          <h1>FUCK YEAA' MEYER</h1>
-          <h2>Spiller 2 vandt ikke :)</h2>
+      <div id="popup"></div>
+
+      <div id="debugOverlays">
+        <div id="debugHandOverlay">
+          <h3>Hands</h3>
+          <span>Previous hand: </span>
+          <span class="dbgPrevHand" class="dbgPrevHand"></span>
+          <br>
+          <span>Current hand: </span>
+          <span class="dbgCurrentHand"class="dbgCurrentHand"></span>
+          <br>
+          <span>Said hand: </span>
+          <span class="dbgSaidHand"class="dbgSaidHand"></span>
+          <br>
+          <span>At or over: </span>
+          <span class="dbgAtOrOver"class="dbgAtOrOver"></span>
         </div>
-        <button onclick="location.reload()">Nyt spil</button>
+
+        <div id="debugLifeOverlay">
+          <h3>Lives</h3>
+          <ol class="playerList playerLifeList"></ol>
+        </div>
       </div>
+
+      <dialog id="debug" closedby="any" class="dialogMenu">
+        <h1>Debug</h1>
+        <div class="hLine"></div>
+        <div id="debugContent">
+          <div id="debugToggles">
+            <div>
+              <label for="debugHand">Game hand overlay</label>
+              <label class="switch round">
+                <input type="checkbox" name="handDebug" id="debugHand">
+              </label>
+            </div>
+
+            <div>
+              <label for="debugLife">Player life overlay</label>
+              <label class="switch round">
+                <input type="checkbox" name="lifeDebug" id="debugLife">
+              </label>
+            </div>
+
+            <div>
+              <label for="captureConsole">Take over console</label>
+              <label class="switch round">
+                <input type="checkbox" name="takeOverConsole" id="captureConsole">
+              </label>
+            </div>
+
+            <div>
+              <label for="changeSettings">Enable setting changing</label>
+              <label class="switch round">
+                <input type="checkbox" name="enableSettingChanging" id="changeSettings">
+              </label>
+            </div>
+          </div>
+
+          <div class="vLine"></div>
+
+          <div id="debugStatus">
+            <h3>Lives</h3>
+            <ol class="playerList playerLifeList"></ol>
+
+            <h3>Hands</h3>
+            <span>Previous Hand: </span>
+            <span class="dbgPrevHand"></span>
+            <br>
+            <span>Current Hand: </span>
+            <span class="dbgCurrentHand"></span>
+            <br>
+            <span>Said Hand: </span>
+            <span class="dbgSaidHand"></span>
+            <br>
+            <span>AtOrOver: </span>
+            <span class="dbgAtOrOver">false</span>
+          </div>
+        </div>
+
+        <div id="debugGame">
+          <div class="hLine m0"></div>
+          <span>Create a test game</span>
+          <br>
+          <label for="">Players: </label>
+          <input class="fancyInput mT01" type="number" name="testPlayerCount" id="debugPlayerCount" min="2" value="2">
+          
+          <button class="fancyBtn inputBtn" id="debugGameCreate">Create</button>
+          <button class="fancyBtn inputBtn" id="debugGameEnd">End</button>
+        </div>
+      </dialog>
+
       <svg class="iconBtn" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#CCCCCC" id="settingsIcon" open="false"><path d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>
       <div id="settings" open="false">
         <svg class="iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC" id="settingsClose"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg>
@@ -24,7 +115,7 @@
           <div class="hLine"></div>
           <div id="players">
             <h3>Spillere</h3>
-            <ol id="playerList">
+            <ol class="playerList">
               <li class="player"><input type="text" class="playerName fancyInput" name="playerName" placeholder="Spiller navn"><svg class="playerRemove iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg></li>
               <li class="player"><input type="text" class="playerName fancyInput" name="playerName" placeholder="Spiller navn"><svg class="playerRemove iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg></li>
             </ol>
@@ -39,13 +130,22 @@
             </div>
 
             <div>
-              <label for="lieOnStart">Lyv på startslag</label>
-              <input class="fancyCheck" type="checkbox" name="lyingOnStart" id="lieOnStart">
+              <label for="lieOnStart" class="ruleName">
+                Lyv på startslag
+              </label>
+
+              <label class="switch round">
+                <input type="checkbox" name="lyingOnStart" id="lieOnStart">
+              </label>
             </div>
             
             <div>
-              <label for="onlyOver">Skal slå over</label>
-              <input class="fancyCheck" type="checkbox" name="mustBeOver" id="onlyOver">
+              <label for="onlyOver" class="ruleName">
+                Skal slå over
+              </label>
+              <label class="switch round">
+                <input type="checkbox" name="mustBeOver" id="onlyOver">
+              </label>
             </div>
           </div>
           <br>
@@ -56,6 +156,7 @@
           <span id="settingIssue"></span>
         </div>
       </div>
+
       <div id="lieSelect" open="false">
         <div id="content">
           <h2 id="title">Løgneren</h2>
@@ -87,18 +188,24 @@
           <svg class="iconBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#CCCCCC" id="lieSelectClose"><path d="M480-438 270-228q-9 9-21 9t-21-9q-9-9-9-21t9-21l210-210-210-210q-9-9-9-21t9-21q9-9 21-9t21 9l210 210 210-210q9-9 21-9t21 9q9 9 9 21t-9 21L522-480l210 210q9 9 9 21t-9 21q-9 9-21 9t-21-9L480-438Z"/></svg>
         </div>
       </div>
+
       <h1 style="font-family: 'Courier New', Courier, monospace; font-size: 4rem; margin: 0; cursor: pointer;" onclick="location.href = '/'">
         Meyer
       </h1>
+
       <h3 id="currentPlayer"></h3>
+
       <div id="healthBox">
         <img src="../assets/dice/6.png" alt="" id="health">
-      </div>
+      </div>  
+
       <h2 id="gameInfo" class="nHeading">Set spil op i indstillingerne</h2>
-      <div id="hand">
+
+      <div id="playerHand">
         <div id="cupBox">
           <img src="../assets/cups/closed.png" alt="" id="cup" shaking="false">
         </div>
+
         <div id="diceBox">
           <div id="dice">
             <img src="../assets/dice/1.png" id="die1" class="die">
@@ -107,6 +214,7 @@
           <br>
           <h3 id="handInfo">Meyer</h3>
         </div>
+        
         <div id="gameActions">
           <button class="fancyBtn large" id="atOrOverAction">Dét eller derover</button>
           <button class="fancyBtn large" id="lieAction">Lyv</button>
@@ -116,13 +224,18 @@
         </div>
       </div>
     </div>
-    <script src="./meyer.js"></script>
-    <script src="./ui.js"></script>
-    <script src="./dice.js"></script>
+
     <div class="version">
       <p>
         Meyer Online - Version 0.3.6
       </p>
     </div>
+
+    <script src="./meyer.js"></script>
+    <script src="./ui.js"></script>
+    <script src="./dice.js"></script>
+
+    <!--This can be uncommented to disable debugging tools-->
+    <script src="./debug.js"></script>
   </body>
 </html>
