@@ -246,7 +246,7 @@ function selectLie(lieHand) {
 }
 
 function decreaseCurrentPlayerHealth() {
-    if (saidHand == "Meyer") {
+    if (currentHand == "Meyer") {
         playerLives[currentPlayerIndex] -= 2
     }
     else {
@@ -282,12 +282,7 @@ function decreaseCurrentPlayerHealth() {
 }
 
 function decreasePreviousPlayerHealth() {
-    if (saidHand == "Meyer") {
-        playerLives[previousPlayerIndex] -= 2
-    }
-    else {
-        playerLives[previousPlayerIndex]--
-    }
+    playerLives[previousPlayerIndex]--
     
     if (playerLives[previousPlayerIndex] <= 0) {
         setGameInfo(playerNames[previousPlayerIndex] + " er død")
