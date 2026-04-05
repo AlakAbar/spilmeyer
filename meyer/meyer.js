@@ -60,6 +60,7 @@ function nextTurn() {
 
     setCurrentPlayer(playerNames[currentPlayerIndex])
     setReceivingActions()
+    showActions()
     
     if (atOrOverSelected) {
         setGameInfo(playerNames[previousPlayerIndex] + " siger: Dét eller derover " + saidHand) // maybe .toLowerCase() on saidHand
@@ -98,6 +99,7 @@ function gameAtOrOverAction(event) {
 }
 
 function gameLieAction() {
+    hideActions()
     filterLiesSelectLies(saidHand)
     toggleLieSelect()
 
@@ -105,6 +107,7 @@ function gameLieAction() {
 }
 
 function gameOpenAction() {
+    hideActions()
     openCup()
     hideOpenAction()
     
@@ -148,6 +151,7 @@ function gameShakeAction(event) {
     setGameInfo("")
     
     if (event == undefined) {
+        showActions()
         stopShake()
         peekCup()
         if (saidHand == "") {
@@ -175,6 +179,7 @@ function gameShakeAction(event) {
         
         prevHand = currentHand
 
+        hideActions()
         closeCup()
         startShake()
         setTimeout(gameShakeAction, 2000);
@@ -191,6 +196,7 @@ function gameShakeAction(event) {
 function gameTruthAction() {
     atOrOverSelected = false
     saidHand = currentHand
+    hideActions()
     closeCup()
     nextTurn()
 
