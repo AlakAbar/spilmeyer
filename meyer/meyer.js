@@ -1,6 +1,7 @@
 let gameRunning = false
 let livesAmount = 6
 let onlyOverOn = false
+let doubleOnMeyerOn = false
 
 let playerNames = [];
 let playerLives = [];
@@ -214,8 +215,13 @@ function selectLie(lieHand) {
 }
 
 function decreaseCurrentPlayerHealth() {
-    if (currentHand == "Meyer") {
-        playerLives[currentPlayerIndex] -= 2
+    if (doubleOnMeyerOn) {
+        if (prevHand == "Meyer" || currentHand == "Meyer") {
+            playerLives[currentPlayerIndex] -= 2
+        }
+        else {
+            playerLives[currentPlayerIndex]--
+        }
     }
     else {
         playerLives[currentPlayerIndex]--

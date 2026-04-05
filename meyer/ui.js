@@ -9,6 +9,7 @@ const maxLives = 6
 const lifeCount = document.querySelector("#livesAmount")
 const lieOnStart = document.querySelector("#lieOnStart")
 const onlyOver = document.querySelector("#onlyOver")
+const doubleOnMeyer = document.querySelector("#doubleOnMeyer")
 
 // Elements
 const settings = document.querySelector("#settings")
@@ -123,6 +124,7 @@ function disableSettingChanges() {
     lifeCount.disabled = true
     lieOnStart.disabled = true
     onlyOver.disabled = true
+    doubleOnMeyer.disabled = true
 
     settingIssueText.innerHTML = "Indstillinger kan ikke ændres mens spillet er igang"
 
@@ -135,6 +137,7 @@ function enableSettingChanges() {
     lifeCount.disabled = false
     lieOnStart.disabled = false
     onlyOver.disabled = false
+    doubleOnMeyer.disabled = false
 
     settingIssueText.innerHTML = ""
 
@@ -222,6 +225,12 @@ function setOnlyOver() {
 }
 
 onlyOver.addEventListener("change", setOnlyOver)
+
+function setDoubleOnMeyer() {
+    doubleOnMeyerOn = doubleOnMeyer.checked
+}
+
+doubleOnMeyer.addEventListener("change", setDoubleOnMeyer)
 
 /*
 Game UI methods
