@@ -108,9 +108,9 @@ function gameLieAction() {
 }
 
 function gameOpenAction() {
-    hideActions()
     openCup()
-    hideOpenAction()
+    showActions()
+    setStartingActions()
     
     if (!atOrOverSelected) {
         if (saidHand == currentHand) {
@@ -143,7 +143,6 @@ function gameOpenAction() {
     // console.log(saidHand);
 
     saidHand = ""
-    setStartingActions()
 
     if (debugging) debugUpdateOverlays();
 }
